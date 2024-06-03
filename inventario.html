@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style.css" /> <!-- Adicionei o link para o estilo do card -->
+    <script src="https://kit.fontawesome.com/920e80a3f4.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        <div>Ínicio</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="inventario.html">
+                        <i class="fas fa-industry"></i>
+                        <div>Inventário</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <div>Visão Geral</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="topbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="vip.png" alt="logo" width="72px" height="72px" >
+                    </a>
+                </div>
+                <div class="search">
+                    <input type="text" placeholder="Search...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user">
+                    <button class="user-button" onclick="toggleUserMenu()"><i class="fas fa-user"></i></button>
+                    <div id="userMenu" class="user-menu">
+                        <a href="#">Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <h1 class="main-title">Inventário</h1>
+                <div class="cards">
+                    <div class="cards">
+                        <div class="card2">
+                            <div class="card-content">
+                                <div class="number">Funcionários</div>
+                                <div class="card-name">426</div>
+                            </div>
+                        </div>
+                        <div class="card2">
+                            <div class="card-content">
+                                <div class="number">Máquinas</div>
+                                <div class="card-name">112</div>
+                            </div>
+                        </div>
+                        <div class="cards">
+                            <div class="card2">
+                                <div class="card-content">
+                                    <div class="number">Status VIP</div> 
+                                    <div class="card-name">On-line</div>
+                                </div>
+                            </div>
+                            <div class="card2">
+                                <div class="card-content">
+                                    <div class="number">Clientes</div>
+                                    <div class="card-name">32</div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="cards">
+                        <div class="card2">
+                            <div class="card-content">
+                                <div class="number">Total de Matéria-Prima</div>
+                                <div class="card-name">24240</div>
+                            </div>
+                        </div>
+                        <div class="card2">
+                            <div class="card-content">
+                                <div class="number">Total de Borracha</div>
+                                <div class="card-name">10000</div>
+                            </div>
+                        </div>
+                        <div class="cards">
+                            <div class="card2">
+                                <div class="card-content">
+                                    <div class="number">Natural</div>
+                                    <div class="card-name">5000</div>
+                                </div>
+                            </div>
+                            <div class="card2">
+                                <div class="card-content">
+                                    <div class="number">Sintética</div>
+                                    <div class="card-name">5000</div>
+                                </div>
+                            </div>
+                            <div class="cards">
+                                <div class="card2">
+                                    <div class="card-content">
+                                        <div class="number">Sílica</div>
+                                        <div class="card-name">6240</div>
+                                    </div>
+                                </div>
+                                <div class="card2">
+                                    <div class="card-content">
+                                        <div class="number">Carbono</div>
+                                        <div class="card-name">8000</div>
+                                    </div>
+                                </div>
+                            </div>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Copyright 2024 © | VIProduction® 
+    </footer>
+    
+    <script>
+        function toggleUserMenu() {
+            var userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('show');
+        }
+
+        function searchFunction() {
+            var input, filter, cards, cardContainer, cardText, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            cardContainer = document.getElementsByClassName("cards")[0];
+            cards = cardContainer.getElementsByClassName("card");
+            for (i = 0; i < cards.length; i++) {
+                cardText = cards[i].getElementsByClassName("card-text")[0];
+                if (cardText) {
+                    if (cardText.innerText.toLowerCase().indexOf(filter) > -1) {
+                        cards[i].style.display = "";
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }       
+            }
+        }
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP - Visão Geral</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+zr/5qD1ELm+OGt/dC4aRjE/G8SbRvJ2E+V2nN6" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/920e80a3f4.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        <div>Início</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="inventario.html">
+                        <i class="fas fa-industry"></i>
+                        <div>Inventário</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <div>Visão Geral</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="topbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="vip.png" alt="logo" width="72px" height="72px">
+                    </a>
+                </div>
+                <div class="search">
+                    <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchFunction()">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user">
+                    <button class="user-button" onclick="toggleUserMenu()"><i class="fas fa-user"></i></button>
+                    <div id="userMenu" class="user-menu">
+                        <a href="#">Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <h1 class="main-title">Visão Geral </h1>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="charts">
+                                <div class="chart">
+                                    <div class="card-title center-title">
+                                        <h3>Entrada de MP</h3>
+                                        <h6>MP = matéria-prima</h6>
+                                        <canvas id="lineChart"></canvas>
+                                        <div class="card-text" id="totalMateriasPrimasAnoTexto"></div>
+                                        <div class="card-text" id="mesMaisMateriasPrimasTexto"></div>
+                                    </div>
+                                    <div class="card-title center-title">
+                                        <h3>Tipo da MP</h3>
+                                        <h6>MP = matéria-prima</h6>
+                                    </div>
+                                    <div class="card-text center-chart">
+                                        <canvas id="doughnut"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Copyright 2024 © | VIProduction® 
+    </footer>
+
+    <script src="chart1.js"></script>
+    <script src="chart2.js"></script>
+
+    <script>
+        function toggleUserMenu() {
+            var userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('show');
+        }
+
+        function searchFunction() {
+            var input, filter, cards, cardContainer, cardText, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            cardContainer = document.getElementsByClassName("cards")[0];
+            cards = cardContainer.getElementsByClassName("card");
+            for (i = 0; i < cards.length; i++) {
+                cardText = cards[i].getElementsByClassName("card-text")[0];
+                if (cardText) {
+                    if (cardText.innerText.toLowerCase().indexOf(filter) > -1) {
+                        cards[i].style.display = "";
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }       
+            }
+        }
+
+
+        const materiasPrimasPorMes = [1000, 1300, 1600, 2100, 1800, 1500, 2500, 2600, 2690, 1950, 2300, 2900];
+
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+        let maxMateriasPrimas = 0;
+        let mesMaisMateriasPrimas = '';
+
+        for (let i = 0; i < materiasPrimasPorMes.length; i++) {
+            if (materiasPrimasPorMes[i] > maxMateriasPrimas) {
+                maxMateriasPrimas = materiasPrimasPorMes[i];
+                mesMaisMateriasPrimas = meses[i];
+            }
+        }
+
+        const mesMaisMateriasPrimasTexto = document.getElementById('mesMaisMateriasPrimasTexto');
+        mesMaisMateriasPrimasTexto.innerHTML = `<p>O mês de <strong>${mesMaisMateriasPrimas}</strong> foi o que mais recebeu peças de matéria-prima, com um total de <strong>${maxMateriasPrimas}</strong> matérias-primas recebidas.</p>`;
+
+        const totalMateriasPrimasAno = materiasPrimasPorMes.reduce((total, quantidade) => total + quantidade, 0);
+        const totalMateriasPrimasAnoTexto = document.getElementById('totalMateriasPrimasAnoTexto');
+        totalMateriasPrimasAnoTexto.innerHTML = `<p>O total de matérias-primas recebidas no ano foi de <strong>${totalMateriasPrimasAno}</strong>.</p>`;
+
+        const materiasPrimas = [
+            { tamanho: 'Pequeno', quantidade: 500 },
+            { tamanho: 'Médio', quantidade: 300 },
+            { tamanho: 'Grande', quantidade: 200 }
+        ];
+
+        const totalMateriasPrimas = materiasPrimas.reduce((total, item) => total + item.quantidade, 0);
+
+        let maiorQuantidade = 0;
+        let tamanhoMaiorQuantidade = '';
+        materiasPrimas.forEach(item => {
+            if (item.quantidade > maiorQuantidade) {
+                maiorQuantidade = item.quantidade;
+                tamanhoMaiorQuantidade = item.tamanho;
+            }
+        });
+
+        const percentualMaiorQuantidade = (maiorQuantidade / totalMateriasPrimas) * 100;
+
+        const maiorQuantidadeTexto = document.getElementById('maiorQuantidadeTexto');
+        maiorQuantidadeTexto.innerHTML = `<p>O tamanho de matéria-prima com a maior quantidade é <strong>${tamanhoMaiorQuantidade}</strong>, com <strong>${maiorQuantidade}</strong> unidades.</p>`;
+
+        const percentualEstoqueTexto = document.getElementById('percentualEstoqueTexto');
+        percentualEstoqueTexto.innerHTML = `<p>O tamanho <strong>${tamanhoMaiorQuantidade}</strong> representa <strong>${percentualMaiorQuantidade.toFixed(2)}%</strong> do estoque.</p>`;
+
+        const ctxDoughnut = document.getElementById('doughnut').getContext('2d');
+        const doughnutChart = new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: materiasPrimas.map(item => item.tamanho),
+                datasets: [{
+                    data: materiasPrimas.map(item => item.quantidade),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        
+    </script>
+
+</body>
+</html>
